@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Analysis - Arya Khandekar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 600px;
+            /* Positioned to the top-left to leave room for the browser address bar */
+            margin-top: 10px;
+            margin-left: 10px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 18px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-left: 5px solid #007bff;
+            display: none; /* Hidden by default */
+        }
+
+        .student-info {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .result-text {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Array Max/Min Analyzer</h2>
+        
+        <div class="input-group">
+            <label for="arrayInput">Enter numbers (comma separated):</label>
+            <input type="text" id="arrayInput" placeholder="e.g., 10, 5, 23, 1, 99">
+        </div>
+
+        <button onclick="analyzeArray()">Analyze Array</button>
+
+        <div id="output">
+            <div class="student-info">
+                Name : Arya khandekar<br>
+                PRN : 24070521219
+            </div>
+            <div class="result-text" id="resultDetails"></div>
+        </div>
+    </div>
+
+    <script>
+        function analyzeArray() {
+            // Get input value
+            const inputStr = document.getElementById('arrayInput').value;
+            const outputDiv = document.getElementById('output');
+            const resultDetails = document.getElementById('resultDetails');
+
+            // Validate input
+            if (!inputStr.trim()) {
+                alert("Please enter some numbers.");
+                return;
+            }
+
+            // Convert string to array of numbers
+            // split by comma, trim whitespace, and convert to Number
+            const numbers = inputStr.split(',')
+                .map(item => item.trim())
+                .filter(item => item !== '') // remove empty strings
+                .map(Number);
+
+            // Check for invalid numbers
+            if (numbers.some(isNaN)) {
+                alert("Invalid input. Please enter only numbers separated by commas.");
+                return;
+            }
+
+            // Initialize max and min with the first element
+            let maxVal = numbers[0];
+            let minVal = numbers[0];
+
+            // Loop through the array to find max and min
+            for (let i = 1; i < numbers.length; i++) {
+                if (numbers[i] > maxVal) {
+                    maxVal = numbers[i];
+                }
+                if (numbers[i] < minVal) {
+                    minVal = numbers[i];
+                }
+            }
+
+            // Display results
+            resultDetails.innerHTML = `
+                <strong>Input Array:</strong> [${numbers.join(', ')}]<br>
+                <strong>Maximum Value:</strong> ${maxVal}<br>
+                <strong>Minimum Value:</strong> ${minVal}
+            `;
+            
+            // Show the output box
+            outputDiv.style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
