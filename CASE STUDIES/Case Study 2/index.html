@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Billing System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Invoice Generator</h2>
+    <form id="billForm">
+        <div class="grid">
+            <div class="full-width">
+                <label for="cname">Customer Name</label>
+                <input type="text" id="cname" required placeholder="John Doe">
+            </div>
+            <div>
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" required placeholder="9876543210">
+            </div>
+            <div>
+                <label for="invoice">Invoice Number</label>
+                <input type="text" id="invoice" placeholder="INV-2026-001">
+            </div>
+            <div class="full-width">
+                <label for="product">Product Name</label>
+                <input type="text" id="product" placeholder="Item description">
+            </div>
+            <div>
+                <label for="qty">Quantity (Kg)</label>
+                <input type="number" id="qty" min="0" step="any">
+            </div>
+            <div>
+                <label for="rate">Rate Per Kg (₹)</label>
+                <input type="number" id="rate" min="0" step="any">
+            </div>
+            <div>
+                <label for="discount">Discount (%)</label>
+                <input type="number" id="discount" min="0" max="100" value="0">
+            </div>
+            <div>
+                <label for="gst">GST (%)</label>
+                <input type="number" id="gst" min="0" max="100" value="0">
+            </div>
+            <div>
+                <label for="packing">Packing Charges (₹)</label>
+                <input type="number" id="packing" min="0" value="0">
+            </div>
+            <div>
+                <label for="payment">Payment Mode</label>
+                <select id="payment">
+                    <option>UPI</option>
+                    <option>Card</option>
+                    <option>Cash</option>
+                </select>
+            </div>
+            <div class="full-width">
+                <label for="member">Membership Tier Discount (Extra 5%Hex)</label>
+                <select id="member">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" onclick="calculateBill()">Generate Invoice</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
