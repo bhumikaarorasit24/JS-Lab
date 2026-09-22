@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Form</title>
+</head>
+<body style="text-align: left; font-family: sans-serif; padding: 20px; margin: 0; background-color: #f9f9f9;">
+
+    <!-- Broad Main Headline -->
+    <h1 style="text-align: left; font-size: 32px; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">Job Application</h1>
+
+    <!-- Main form structure -->
+    <form action="#" method="POST" style="text-align: left;">
+        
+        <!-- The Flexbox Container that splits into two columns -->
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0;">
+            
+            <!-- LEFT COLUMN CONTAINER -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px;">
+                
+                <!-- 1. Personal Information Section -->
+                <fieldset style="text-align: left; border: 1px solid #ccc; padding: 15px; background: #fff; border-radius: 4px;">
+                    <legend><h3>Personal Information</h3></legend>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="fullName">Full Name:</label><br>
+                        <input type="text" id="fullName" name="fullName" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="dob">Date of Birth:</label><br>
+                        <input type="date" id="dob" name="dob" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label>Gender:</label><br>
+                        <input type="radio" id="male" name="gender" value="male">
+                        <label for="male">Male</label>
+                        
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                        
+                        <input type="radio" id="other" name="gender" value="other">
+                        <label for="other">Other</label>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="email">Email Address:</label><br>
+                        <input type="email" id="email" name="email" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="mobile">Mobile Number:</label><br>
+                        <input type="tel" id="mobile" name="mobile" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="address">Address:</label><br>
+                        <textarea id="address" name="address" rows="2" style="width: 90%; resize: vertical;" required></textarea>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="cityStatePin">City / State / PIN Code:</label><br>
+                        <input type="text" id="cityStatePin" name="cityStatePin" style="width: 90%;" required>
+                    </p>
+                </fieldset>
+
+                <!-- 2. Educational Qualification Section -->
+                <fieldset style="text-align: left; border: 1px solid #ccc; padding: 15px; background: #fff; border-radius: 4px;">
+                    <legend><h3>Educational Qualification</h3></legend>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="highestQual">Highest Qualification:</label><br>
+                        <input type="text" id="highestQual" name="highestQual" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="university">University / Institute:</label><br>
+                        <input type="text" id="university" name="university" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="passingYear">Passing Year:</label><br>
+                        <input type="number" id="passingYear" name="passingYear" min="1900" max="2030" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="cgpa">Percentage / CGPA:</label><br>
+                        <input type="text" id="cgpa" name="cgpa" style="width: 90%;" required>
+                    </p>
+                </fieldset>
+            </div>
+
+            <!-- RIGHT COLUMN CONTAINER -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px;">
+                
+                <!-- 3. Professional Information Section -->
+                <fieldset style="text-align: left; border: 1px solid #ccc; padding: 15px; background: #fff; border-radius: 4px;">
+                    <legend><h3>Professional Information</h3></legend>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="jobPosition">Applying For / Job Position:</label><br>
+                        <input type="text" id="jobPosition" name="jobPosition" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="experience">Total Work Experience (in years):</label><br>
+                        <input type="number" id="experience" name="experience" min="0" step="0.1" style="width: 90%;" required>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="prevOrg">Current / Previous Organization:</label><br>
+                        <input type="text" id="prevOrg" name="prevOrg" style="width: 90%;">
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="designation">Current Designation:</label><br>
+                        <input type="text" id="designation" name="designation" style="width: 90%;">
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="salary">Expected Salary:</label><br>
+                        <input type="text" id="salary" name="salary" style="width: 90%;" required>
+                    </p>
+                </fieldset>
+
+                <!-- 4. Technical Skills Section -->
+                <fieldset style="text-align: left; border: 1px solid #ccc; padding: 15px; background: #fff; border-radius: 4px;">
+                    <legend><h3>Technical Skills</h3></legend>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="languages">Programming Languages:</label><br>
+                        <input type="text" id="languages" name="languages" style="width: 90%;" placeholder="e.g. HTML, Java, JavaScript">
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="techSkills">Technical Skills:</label><br>
+                        <textarea id="techSkills" name="techSkills" rows="2" style="width: 90%; resize: vertical;"></textarea>
+                    </p>
+                    
+                    <p style="margin: 8px 0;">
+                        <label for="certifications">Certifications:</label><br>
+                        <textarea id="certifications" name="certifications" rows="2" style="width: 90%; resize: vertical;"></textarea>
+                    </p>
+                </fieldset>
+
+                <!-- Submit Button -->
+                <button type="submit" style="display: block; width: 45%; padding: 10px; margin-top: 5px; cursor: pointer; font-weight: bold;">Submit Application</button>
+            </div>
+            
+        </div>
+    </form>
+
+    <!-- Separation Line -->
+    <div style="max-width: 1200px; margin: 25px 0 0 0;">
+        <hr style="text-align: left; margin-left: 0; width: 100%; border: 0; border-top: 1px solid #ccc;">
+    </div>
+    
+    <!-- Left-aligned Developer Footer -->
+    <footer style="text-align: left; max-width: 1200px; margin: 15px 0 0 0;">
+        <p style="margin: 5px 0;"><strong>Developed by Name :</strong> Arya Khandekar</p>
+        <p style="margin: 5px 0;"><strong>prn :</strong> 24070521219</p>
+    </footer>
+
+</body>
+</html>
