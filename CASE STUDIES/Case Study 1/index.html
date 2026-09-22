@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department - SIT Nagpur</title>
+    <style>
+        /* Modern CSS Reset & Variable Definitions */
+        :root {
+            --primary-color: #003366;    /* Deep Academic Blue */
+            --secondary-color: #ffc107;  /* Accent Gold */
+            --text-dark: #1a252f;        /* Enhanced Dark Slate for bold text readability */
+            --text-light: #6c757d;       /* Muted gray for subtitles */
+            --bg-light: #f8f9fa;         /* Soft off-white background */
+            --card-bg: #ffffff;          /* Pure white for containers */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Core Layout Wrapper to Stack Elements Elegantly */
+        .page-wrapper {
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* Institutional Big Heading Styling */
+        .institute-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .institute-header h2 {
+            font-size: 2.6rem;         /* Big, bold institutional look */
+            font-weight: 800;          /* Maximum professional thickness */
+            color: var(--primary-color);
+            text-transform: uppercase; /* Clean corporate university branding */
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .institute-header h2 span {
+            color: var(--secondary-color); /* Splitting color highlights 'SIT Nagpur' beautifully */
+        }
+
+        /* Professional Card Container */
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            text-align: center;
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Typography Styling */
+        h1 {
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* Styled Premium Button */
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 51, 102, 0.2);
+        }
+
+        .btn-link:hover {
+            background-color: #002244;
+            box-shadow: 0 6px 12px rgba(0, 51, 102, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-link:active {
+            transform: translateY(1px);
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            alert("Welcome to SIT Nagpur");
+            console.log("Department page loaded successfully.");
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Main page container scaling the layout architecture -->
+    <div class="page-wrapper">
+        
+        <!-- Big Premium Institutional Branding Header -->
+        <header class="institute-header">
+            <h2>Welcome to <br><span>SIT Nagpur</span></h2>
+        </header>
+
+        <!-- Department Content Block -->
+        <main class="container">
+            <h1>Department of Computer Science</h1>
+            <p>Welcome to the department webpage</p>
+            <a href="student.html" class="btn-link">Student Information</a>
+        </main>
+
+    </div>
+
+</body>
+</html>
