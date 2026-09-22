@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Handling with JavaScript</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 15px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    .form-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 800px; /* Broader width to fit everything in one view */
+      padding: 20px 25px;
+      text-align: left;
+    }
+
+    h2 {
+      margin-bottom: 2px;
+      color: #2c3e50;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    .mandatory-note {
+      color: #e74c3c;
+      font-size: 12px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    /* 2-column grid layout for a compact vertical footprint */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 20px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .form-row label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #4a5568;
+      text-align: left;
+    }
+
+    .input-field, .date-selects select {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 5px;
+      font-size: 13px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .date-selects {
+      display: flex;
+      gap: 6px;
+    }
+
+    .date-selects select {
+      flex: 1;
+      background-color: #fff;
+    }
+
+    .asterisk {
+      color: #e74c3c;
+      font-weight: bold;
+      margin-left: 2px;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      text-align: left;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      accent-color: #3182ce;
+    }
+
+    .checkbox-row label {
+      margin-left: 8px;
+      font-size: 13px;
+      color: #4a5568;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 8px;
+      background-color: #3182ce;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .submit-btn:hover {
+      background-color: #2b6cb0;
+    }
+
+    /* Focus styling */
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3182ce;
+      box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+    }
+
+    /* Footer Credits */
+    .developer-credits {
+      margin-top: 12px;
+      text-align: left;
+      font-size: 12px;
+      color: #718096;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+    }
+
+    .developer-credits p {
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Sign Up</h2>
+  <div class="mandatory-note">* Mandatory fields</div>
+
+  <form id="signupForm" novalidate>
+    <div class="form-grid">
+      
+      <div class="form-row">
+        <label for="firstname">First Name <span class="asterisk">*</span></label>
+        <input type="text" id="firstname" class="input-field" placeholder="Enter first name">
+      </div>
+
+      <div class="form-row">
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname" class="input-field" placeholder="Enter last name">
+      </div>
+
+      <div class="form-row">
+        <label>Birthday <span class="asterisk">*</span></label>
+        <div class="date-selects">
+          <select id="day">
+            <option value="">Day</option>
+          </select>
+          <select id="month">
+            <option value="">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          <select id="year">
+            <option value="">Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="username">Username <span class="asterisk">*</span></label>
+        <input type="text" id="username" class="input-field" placeholder="Choose a username">
+      </div>
+
+      <div class="form-row">
+        <label for="email">E-mail <span class="asterisk">*</span></label>
+        <input type="email" id="email" class="input-field" placeholder="name@example.com">
+      </div>
+
+      <div class="form-row">
+        <label for="website">Website <span class="asterisk">*</span></label>
+        <input type="url" id="website" class="input-field" placeholder="https://example.com">
+      </div>
+
+      <div class="form-row">
+        <label for="password">Password <span class="asterisk">*</span></label>
+        <input type="password" id="password" class="input-field" placeholder="Enter password">
+      </div>
+
+      <div class="form-row">
+        <label for="repassword">Re-password <span class="asterisk">*</span></label>
+        <input type="password" id="repassword" class="input-field" placeholder="Confirm password">
+      </div>
+
+      <div class="checkbox-row full-width">
+        <input type="checkbox" id="terms">
+        <label for="terms">I agree to the terms & conditions.</label>
+      </div>
+
+      <div class="full-width">
+        <button type="submit" class="submit-btn">Sign up</button>
+      </div>
+
+    </div>
+
+    <div class="developer-credits">
+      <p>Developed by: Bhumika Arora</p>
+      <p>PRN: 24070521227</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Populate Days (1 to 31)
+  const daySelect = document.getElementById('day');
+  for (let i = 1; i <= 31; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    daySelect.appendChild(opt);
+  }
+
+  // Populate Years (1950 to 2026)
+  const yearSelect = document.getElementById('year');
+  for (let i = 2026; i >= 1950; i--) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    yearSelect.appendChild(opt);
+  }
+
+  // Event Listener: Change event demonstration
+  document.getElementById('month').addEventListener('change', function() {
+    console.log('Month changed to: ' + this.value);
+  });
+
+  // Event Listener: Submit event and field validations
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const firstname = document.getElementById('firstname').value.trim();
+    const day = document.getElementById('day').value;
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const website = document.getElementById('website').value.trim();
+    const password = document.getElementById('password').value;
+    const repassword = document.getElementById('repassword').value;
+    const terms = document.getElementById('terms').checked;
+
+    if (!firstname) {
+      alert('Firstname is required.');
+      return;
+    }
+
+    if (!day || !month || !year) {
+      alert('Please select a complete birthday.');
+      return;
+    }
+
+    if (!username) {
+      alert('Username is required.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    const urlRegex = /^(https?:\/\/)?([\w\d-]+\.)+[\w-]+(\/.*)?$/i;
+    if (!urlRegex.test(website)) {
+      alert('Please enter a valid website URL.');
+      return;
+    }
+
+    if (!password) {
+      alert('Password is required.');
+      return;
+    }
+
+    if (password !== repassword) {
+      alert('Passwords do not match.');
+      return;
+    }
+
+    if (!terms) {
+      alert('You must agree to the terms & conditions.');
+      return;
+    }
+
+    alert('Form submitted successfully!');
+  });
+</script>
+
+</body>
+</html>
