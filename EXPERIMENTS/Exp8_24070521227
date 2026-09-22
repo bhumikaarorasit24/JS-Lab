@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admission Form</title>
+    <style>
+        /* Body setup to keep everything left-aligned for easy screenshotting */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Aligns content to the left */
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px; /* Compact width for side-by-side view */
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Error message styling */
+        .error-msg {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Border colors for valid/invalid live states */
+        .invalid {
+            border-color: #e74c3c;
+            background-color: #fdf2f2;
+        }
+
+        .valid {
+            border-color: #2ecc71;
+            background-color: #f2fdf5;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Footer styling for student credentials */
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Gym Admission Form</h2>
+        <form id="gymForm" onsubmit="return validateForm(event)">
+            
+            <!-- Full Name Field -->
+            <div class="input-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" oninput="validateName()">
+                <div id="nameError" class="error-msg">Name must be at least 3 characters long.</div>
+            </div>
+
+            <!-- Email Field -->
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="username@domain.com" oninput="validateEmail()">
+                <div id="emailError" class="error-msg">Enter a valid email address (e.g., user@domain.com).</div>
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="input-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="10-digit mobile number" oninput="validatePhone()">
+                <div id="phoneError" class="error-msg">Enter a valid 10-digit phone number.</div>
+            </div>
+
+            <!-- Age Field -->
+            <div class="input-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" placeholder="Must be 15 - 80" oninput="validateAge()">
+                <div id="ageError" class="error-msg">Age must be between 15 and 80 years.</div>
+            </div>
+
+            <!-- Membership Plan Dropdown -->
+            <div class="input-group">
+                <label for="plan">Membership Plan</label>
+                <select id="plan" onchange="validatePlan()">
+                    <option value="">-- Select a Plan --</option>
+                    <option value="monthly">Monthly Pack</option>
+                    <option value="quarterly">Quarterly Pack</option>
+                    <option value="annual">Annual Pack</option>
+                </select>
+                <div id="planError" class="error-msg">Please select a membership plan.</div>
+            </div>
+
+            <button type="submit">Submit Admission</button>
+        </form>
+
+        <!-- Required Student Details -->
+        <div class="footer">
+            <p><strong>Designed by:</strong> Arya Khandekar</p>
+            <p><strong>PRN:</strong> 24070521219</p>
+        </div>
+    </div>
+
+    <script>
+        // Live validation for Full Name (Triggered by oninput)
+        function validateName() {
+            const nameInput = document.getElementById('fullName');
+            const nameError = document.getElementById('nameError');
+            if (nameInput.value.trim().length < 3) {
+                nameInput.className = 'invalid';
+                nameError.style.display = 'block';
+                return false;
+            } else {
+                nameInput.className = 'valid';
+                nameError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Live validation for Email (Triggered by oninput)
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            // Standard regex to enforce the user@domain pattern
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+            if (!emailPattern.test(emailInput.value)) {
+                emailInput.className = 'invalid';
+                emailError.style.display = 'block';
+                return false;
+            } else {
+                emailInput.className = 'valid';
+                emailError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Live validation for Phone Number (Triggered by oninput)
+        function validatePhone() {
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            const phonePattern = /^[0-9]{10}$/; 
+            
+            if (!phonePattern.test(phoneInput.value)) {
+                phoneInput.className = 'invalid';
+                phoneError.style.display = 'block';
+                return false;
+            } else {
+                phoneInput.className = 'valid';
+                phoneError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Live validation for Age (Triggered by oninput)
+        function validateAge() {
+            const ageInput = document.getElementById('age');
+            const ageError = document.getElementById('ageError');
+            const age = parseInt(ageInput.value);
+
+            if (isNaN(age) || age < 15 || age > 80) {
+                ageInput.className = 'invalid';
+                ageError.style.display = 'block';
+                return false;
+            } else {
+                ageInput.className = 'valid';
+                ageError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Live validation for Membership Plan Dropdown (Triggered by onchange)
+        function validatePlan() {
+            const planSelect = document.getElementById('plan');
+            const planError = document.getElementById('planError');
+
+            if (planSelect.value === "") {
+                planSelect.className = 'invalid';
+                planError.style.display = 'block';
+                return false;
+            } else {
+                planSelect.className = 'valid';
+                planError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Final validation check before form submission
+        function validateForm(event) {
+            event.preventDefault(); // Stop page refresh
+
+            // Execute all checks
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPhoneValid = validatePhone();
+            const isAgeValid = validateAge();
+            const isPlanValid = validatePlan();
+
+            // Check if all fields passed validation
+            if (isNameValid && isEmailValid && isPhoneValid && isAgeValid && isPlanValid) {
+                alert("Form submitted successfully!\nWelcome to the Gym, Arya Khandekar.");
+                return true;
+            } else {
+                alert("Please correct the errors in the form before submitting.");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
