@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        /* Modern CSS Reset & Variable Definitions */
+        :root {
+            --primary-color: #003366;    /* Deep Academic Blue */
+            --secondary-color: #ffc107;  /* Accent Gold */
+            --text-dark: #2c3e50;        /* Dark Slate for readability */
+            --text-light: #6c757d;       /* Muted gray for subtitles */
+            --bg-light: #f8f9fa;         /* Soft off-white background */
+            --card-bg: #ffffff;          /* Pure white for containers */
+            --border-color: #e9ecef;     /* Light line color */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Professional Card Container */
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+            width: 100%;
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+        /* Profile Info Data Grid */
+        .info-group {
+            background-color: #fafbfe;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .info-value {
+            color: var(--text-light);
+            font-family: 'Courier New', Courier, monospace; /* Monospace font looks great for IDs/PRNs */
+            font-weight: 600;
+        }
+
+        /* Styled Premium Button Centering & Design */
+        .button-wrapper {
+            text-align: center;
+        }
+
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-link:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            box-shadow: 0 6px 12px rgba(0, 51, 102, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-link:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Card Container -->
+    <main class="container">
+        <h1>Student Information</h1>
+        
+        <!-- Organized Data Layout instead of raw paragraph tags -->
+        <div class="info-group">
+            <div class="info-row">
+                <span class="info-label">Name</span>
+                <span class="info-value" style="font-family: inherit;">Arya Khandekar</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">PRN</span>
+                <span class="info-value">24070521219</span>
+            </div>
+        </div>
+
+        <!-- Back Button Option -->
+        <div class="button-wrapper">
+            <a href="index.html" class="btn-link">← Back to Department</a>
+        </div>
+    </main>
+
+</body>
+</html>
