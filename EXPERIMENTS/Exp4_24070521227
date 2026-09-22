@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Palindrome Checker</title>
+    <style>
+        /* ================= THEME VARIABLES ================= */
+        /* Default Light Theme variables */
+        :root, body[data-theme="light"] {
+          --bg-color: #ffffff;
+          --text-main: #000000;
+          --text-muted: #555555;
+          --input-bg: #ffffff;
+          --input-border: #cccccc;
+          --btn-bg: #e1e1e1;
+          --btn-text: #000000;
+          --btn-border: #bbbbbb;
+          --btn-hover: #d5d5d5;
+          --result-color: #000000;
+        }
+        
+        /* Dark Theme variables */
+        body[data-theme="dark"] {
+          --bg-color: #0f172a;
+          --text-main: #f8fafc;
+          --text-muted: #94a3b8;
+          --input-bg: #1e293b;
+          --input-border: #475569;
+          --btn-bg: #38bdf8;
+          --btn-text: #0f172a;
+          --btn-border: #38bdf8;
+          --btn-hover: #7dd3fc;
+          --result-color: #38bdf8;
+        }
+        
+        /* Pink Theme variables */
+        body[data-theme="pink"] {
+          --bg-color: #fff0f5;
+          --text-main: #4a0e2e;
+          --text-muted: #8b5a74;
+          --input-bg: #ffffff;
+          --input-border: #ffd1dc;
+          --btn-bg: #ff69b4;
+          --btn-text: #ffffff;
+          --btn-border: #ff69b4;
+          --btn-hover: #ff1493;
+          --result-color: #ff1493;
+        }
+        
+        /* Green Theme variables */
+        body[data-theme="green"] {
+          --bg-color: #e8f5e9;
+          --text-main: #1b5e20;
+          --text-muted: #4e7d53;
+          --input-bg: #ffffff;
+          --input-border: #c8e6c9;
+          --btn-bg: #4caf50;
+          --btn-text: #ffffff;
+          --btn-border: #4caf50;
+          --btn-hover: #388e3c;
+          --result-color: #2e7d32;
+        }
+
+        /* ================= APPLICATION STYLES ================= */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 40px;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .theme-selector {
+            margin-bottom: 25px;
+        }
+        .theme-selector select {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.9.em;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .info {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+        .input-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 5px;
+            font-size: 1em;
+            width: 250px;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+        button {
+            padding: 5px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: 1px solid var(--btn-border);
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+        button:hover {
+            background-color: var(--btn-hover);
+        }
+        #result {
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: var(--result-color);
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Selector Dropdown Box -->
+    <div class="theme-selector">
+        <label for="theme-select">Choose Theme: </label>
+        <select id="theme-select" onchange="changeTheme(this.value)">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="pink">Pink Theme</option>
+            <option value="green">Green Theme</option>
+        </select>
+    </div>
+
+    <h1>Palindrome Checker</h1>
+
+    <!-- Student Information Section -->
+    <div class="info">
+        Name: Bhumika Arora
+    </div>
+    <div class="info">
+        PRN: 24070521227
+    </div>
+
+    <!-- Input Form area -->
+    <div class="input-container">
+        <input type="text" id="inputText" value="A">
+        <button onclick="checkPalindrome()">Check</button>
+    </div>
+
+    <!-- Output message text -->
+    <div id="result">A is a Palindrome</div>
+
+<script>
+    // Theme Engine Logic
+    function changeTheme(themeName) {
+        document.body.setAttribute('data-theme', themeName);
+        localStorage.setItem('selectedThemePalindrome', themeName);
+    }
+
+    // Persist and load active state profile dynamically
+    const savedTheme = localStorage.getItem('selectedThemePalindrome');
+    if (savedTheme) {
+        document.getElementById('theme-select').value = savedTheme;
+        changeTheme(savedTheme);
+    }
+
+    function checkPalindrome() {
+        // 1. Get the text from the input field
+        const originalText = document.getElementById("inputText").value;
+
+        // 2. Simple clean up: remove spaces and convert to lowercase for accurate checking
+        const cleanText = originalText.replace(/[^A-Za-z0-9]/g, "").toLowerCase();
+
+        // 3. Reverse the clean text
+        const reversedText = cleanText.split("").reverse().join("");
+
+        const resultDiv = document.getElementById("result");
+
+        // 4. Handle blank inputs
+        if (originalText.trim() === "") {
+            resultDiv.innerText = "Please enter some text.";
+            return;
+        }
+
+        // 5. Check if the original matches the reversed text
+        if (cleanText === reversedText) {
+            resultDiv.innerText = originalText + " is a Palindrome";
+        } else {
+            resultDiv.innerText = originalText + " is not a Palindrome";
+        }
+    }
+</script>
+
+</body>
+</html>
