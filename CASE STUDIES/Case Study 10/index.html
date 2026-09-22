@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Event Registration Portal</title>
+  <style>
+    :root {
+      --bg: #f4f7f6;
+      --card: #fff;
+      --yet: #3498db;
+      --reg: #2ecc71;
+      --not: #e74c3c;
+      --text: #2c3e50;
+      --accent: #8e44ad;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 30px; }
+    h1 { margin: 0 0 8px 0; }
+    .info-panel {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      border-top: 4px solid var(--accent);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #7f8c8d; }
+    .form-group input, .form-group select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .btn-submit { background: var(--accent); color: #fff; }
+    .btn-submit:hover { background: #732d91; }
+    .btn-register { background: var(--yet); color: #fff; }
+    .btn-leave { background: #fff; color: var(--not); border: 1px solid var(--not); }
+    .portal-dashboard { display: none; }
+    .portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+    .status-column {
+      background: #ebeef0;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .column-header {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 3px solid;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .yet-header { border-color: var(--yet); color: #117a8b; }
+    .registered-header { border-color: var(--reg); color: #1e7e34; }
+    .not-header { border-color: var(--not); color: #bd2130; }
+    .badge { background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 12px; font-size: 0.9rem; }
+    .event-card {
+      background: var(--card);
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+    .event-title { font-size: 1.05rem; font-weight: 600; margin: 0 0 8px 0; }
+    .event-meta { font-size: 0.85rem; color: #7f8c8d; margin-bottom: 12px; }
+    .profile-summary {
+      display: none;
+      background: #f9f0ff;
+      border: 1px solid #e8daef;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Campus Event Portal</h1>
+      <p>Enter your student info below to load your personalized tracking dashboard.</p>
+    </header>
+
+    <!-- STEP 1: Student Info Form -->
+    <div class="info-panel" id="form-panel">
+      <h2>Student Registration</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="student-name">Full Name</label>
+          <input type="text" id="student-name" placeholder="e.g. Rahul Sharma" value="Rahul Sharma" />
+        </div>
+        <div class="form-group">
+          <label for="student-id">Student ID / Roll No.</label>
+          <input type="text" id="student-id" placeholder="e.g. STU9921" value="STU9921" />
+        </div>
+        <div class="form-group">
+          <label for="student-dept">Department</label>
+          <select id="student-dept">
+            <option value="Computer Science">Computer Science</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Mechanical">Mechanical</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-submit" onclick="loadPortalNow()">Load My Portal</button>
+      </div>
+    </div>
+
+    <!-- Profile Summary -->
+    <div class="profile-summary" id="profile-summary">
+      <h3 style="margin:0 0 5px 0; color:var(--accent)">Active Student Portal</h3>
+      <p style="margin:0; font-size:0.95rem;">
+        <strong>Student Name:</strong> <span id="display-name"></span> |
+        <strong>ID:</strong> <span id="display-id"></span> |
+        <strong>Department:</strong> <span id="display-dept"></span>
+      </p>
+    </div>
+
+    <!-- STEP 2: Dashboard -->
+    <div class="portal-dashboard" id="portal-dashboard">
+      <div class="portal-grid">
+        <!-- Yet to Register -->
+        <div class="status-column">
+          <h2 class="column-header yet-header">
+            Yet to Register <span class="badge" id="count-yet">2</span>
+          </h2>
+          <div id="yet-container"></div>
+        </div>
+
+        <!-- Registered -->
+        <div class="status-column">
+          <h2 class="column-header registered-header">
+            Registered <span class="badge" id="count-registered">1</span>
+          </h2>
+          <div id="registered-container"></div>
+        </div>
+
+        <!-- Not Registered -->
+        <div class="status-column">
+          <h2 class="column-header not-header">
+            Not Registered <span class="badge" id="count-not">1</span>
+          </h2>
+          <div id="not-registered-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Event data
+    const events = [
+      { id: 'event-1', title: 'National Tech Hackathon 2026', date: 'Oct 14, 2026', loc: 'Block C Auditorium', status: 'yet' },
+      { id: 'event-2', title: 'UI/UX Design Masterclass', date: 'Nov 02, 2026', loc: 'Design Lab 2', status: 'yet' },
+      { id: 'event-3', title: 'Artificial Intelligence Symposium', date: 'Sep 28, 2026', loc: 'Main Seminar Hall', status: 'registered' },
+      { id: 'event-4', title: 'Cybersecurity Boot Camp', date: 'Sep 10, 2026', loc: 'Security Lab 4', status: 'not' },
+    ];
+
+    function render() {
+      const yet = events.filter(e => e.status === 'yet');
+      const reg = events.filter(e => e.status === 'registered');
+      const not = events.filter(e => e.status === 'not');
+
+      document.getElementById('count-yet').textContent = yet.length;
+      document.getElementById('count-registered').textContent = reg.length;
+      document.getElementById('count-not').textContent = not.length;
+
+      const renderCard = e => `
+        <div class="event-card" data-id="${e.id}">
+          <h3 class="event-title">${e.title}</h3>
+          <div class="event-meta">📅 ${e.date} | 📍 ${e.loc}</div>
+          ${e.status === 'yet'
+            ? `<button class="btn btn-register" onclick="registerEvent('${e.id}')">Register</button>`
+            : e.status === 'registered'
+            ? `<button class="btn btn-leave" onclick="cancelRegistration('${e.id}')">Cancel RSVP</button>`
+            : `<button class="btn btn-register" onclick="registerEvent('${e.id}')">Register</button>`
+          }
+        </div>
+      `;
+
+      document.getElementById('yet-container').innerHTML = yet.map(renderCard).join('');
+      document.getElementById('registered-container').innerHTML = reg.map(renderCard).join('');
+      document.getElementById('not-registered-container').innerHTML = not.map(renderCard).join('');
+    }
+
+    function registerEvent(id) {
+      const e = events.find(x => x.id === id);
+      if (!e) return;
+      e.status = 'registered';
+      render();
+    }
+
+    function cancelRegistration(id) {
+      const e = events.find(x => x.id === id);
+      if (!e) return;
+      e.status = 'not';
+      render();
+    }
+
+    function loadPortalNow() {
+      const name = document.getElementById('student-name').value.trim();
+      const id = document.getElementById('student-id').value.trim();
+      const dept = document.getElementById('student-dept').value;
+
+      if (!name || !id) {
+        alert('Please provide both Student Name and Student ID.');
+        return;
+      }
+
+      document.getElementById('display-name').textContent = name;
+      document.getElementById('display-id').textContent = id;
+      document.getElementById('display-dept').textContent = dept;
+
+      document.getElementById('form-panel').style.display = 'none';
+      document.getElementById('profile-summary').style.display = 'block';
+      document.getElementById('portal-dashboard').style.display = 'block';
+
+      render();
+    }
+  </script>
+</body>
+</html>
+
+
