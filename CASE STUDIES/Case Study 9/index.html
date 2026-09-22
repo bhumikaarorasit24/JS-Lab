@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Academic Entry Portal</title>
+
+<style>
+/* ================= THEME VARIABLES ================= */
+/* Default Light Theme variables */
+:root, body[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-main: #000000;
+  --container-bg: transparent;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --btn-bg: #111111;
+  --btn-text: #ffffff;
+  --btn-hover: #333333;
+  --result-bg: transparent;
+  --border-color: #000000;
+  --box-border: #999999;
+}
+
+/* Dark Theme variables */
+body[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --text-main: #f8fafc;
+  --container-bg: #1e293b;
+  --input-bg: #334155;
+  --input-border: #475569;
+  --btn-bg: #38bdf8;
+  --btn-text: #0f172a;
+  --btn-hover: #7dd3fc;
+  --result-bg: #0f172a;
+  --border-color: #38bdf8;
+  --box-border: #475569;
+}
+
+/* Pink Theme variables */
+body[data-theme="pink"] {
+  --bg-color: #fff0f5;
+  --text-main: #4a0e2e;
+  --container-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #ffd1dc;
+  --btn-bg: #ff69b4;
+  --btn-text: #ffffff;
+  --btn-hover: #ff1493;
+  --result-bg: #ffe4e1;
+  --border-color: #ff69b4;
+  --box-border: #ffd1dc;
+}
+
+/* Green Theme variables */
+body[data-theme="green"] {
+  --bg-color: #e8f5e9;
+  --text-main: #1b5e20;
+  --container-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #c8e6c9;
+  --btn-bg: #4caf50;
+  --btn-text: #ffffff;
+  --btn-hover: #388e3c;
+  --result-bg: #d0f0c0;
+  --border-color: #4caf50;
+  --box-border: #c8e6c9;
+}
+
+/* ================= APPLICATION STYLES ================= */
+body{
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    transition: background 0.3s ease, color 0.3s ease;
+    margin: 20px;
+    padding: 20px;
+}
+
+.container{
+    width:320px;
+    margin:20px auto;
+    background: var(--container-bg);
+    padding: var(--container-bg === transparent ? '0px' : '20px');
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.theme-selector {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.theme-selector select {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--box-border);
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+h2{
+    text-align:center;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+h3{
+    font-size:13px;
+    border-bottom:1px solid var(--border-color);
+    padding-bottom:5px;
+    transition: border-color 0.3s ease;
+}
+
+label{
+    font-size:12px;
+    display:block;
+    margin-top:10px;
+}
+
+input{
+    width:100%;
+    padding:6px;
+    box-sizing:border-box;
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    transition: background 0.3s, border 0.3s;
+}
+
+button{
+    width:100%;
+    margin-top:15px;
+    padding:8px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border:none;
+    cursor:pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+
+button:hover {
+    background: var(--btn-hover);
+}
+
+#result{
+    margin-top:15px;
+    border:1px solid var(--box-border);
+    background-color: var(--result-bg);
+    padding:10px;
+    font-size:12px;
+    white-space:pre-line;
+    border-radius: 4px;
+    transition: background 0.3s, border 0.3s;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- Theme Selector Dropdown Box -->
+<div class="theme-selector">
+  <select id="theme-select" onchange="changeTheme(this.value)">
+    <option value="light">Light Theme</option>
+    <option value="dark">Dark Theme</option>
+    <option value="pink">Pink Theme</option>
+    <option value="green">Green Theme</option>
+  </select>
+</div>
+
+<h2>24070521219</h2>
+
+<h3>ACADEMIC ENTRY PORTAL</h3>
+
+<label>Student Name</label>
+<input type="text" id="name">
+
+<label>PRN Number</label>
+<input type="text" id="prn">
+
+<label>Subject 1 Marks (0-100)</label>
+<input type="number" id="m1">
+
+<label>Subject 2 Marks (0-100)</label>
+<input type="number" id="m2">
+
+<label>Subject 3 Marks (0-100)</label>
+<input type="number" id="m3">
+
+<label>Subject 4 Marks (0-100)</label>
+<input type="number" id="m4">
+
+<label>Subject 5 Marks (0-100)</label>
+<input type="number" id="m5">
+
+<button onclick="calculate()">PROCESS RESULT</button>
+
+<h3>SYSTEM OUTPUT RECEIPT</h3>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+// Theme Toggle Engine Logic
+function changeTheme(themeName) {
+    document.body.setAttribute('data-theme', themeName);
+    localStorage.setItem('selectedThemeEXP3', themeName);
+}
+
+// Load and apply saved theme setting immediately when script runs
+const savedTheme = localStorage.getItem('selectedThemeEXP3');
+if (savedTheme) {
+    document.getElementById('theme-select').value = savedTheme;
+    changeTheme(savedTheme);
+}
+
+function calculate(){
+
+let name=document.getElementById("name").value.trim();
+let prn=document.getElementById("prn").value.trim();
+
+let marks=[
+Number(document.getElementById("m1").value),
+Number(document.getElementById("m2").value),
+Number(document.getElementById("m3").value),
+Number(document.getElementById("m4").value),
+Number(document.getElementById("m5").value)
+];
+
+if(name==""){
+alert("Please enter student name");
+return;
+}
+
+if(prn==""){
+alert("Please enter PRN Number");
+return;
+}
+
+for(let i=0;i<marks.length;i++){
+
+if(isNaN(marks[i]) || marks[i]<0 || marks[i]>100 || document.getElementById("m"+(i+1)).value === ""){
+alert("Marks should be between 0 and 100");
+return;
+}
+
+}
+
+let total=0;
+
+for(let i=0;i<marks.length;i++){
+total+=marks[i];
+}
+
+let percentage=(total/500)*100;
+
+let grade="";
+
+if(percentage>=90)
+grade="A+";
+else if(percentage>=80)
+grade="A";
+else if(percentage>=70)
+grade="B";
+else if(percentage>=60)
+grade="C";
+else if(percentage>=50)
+grade="D";
+else
+grade="F";
+
+document.getElementById("result").innerHTML=
+"<b>STUDENT ACADEMIC REPORT</b><br><br>"+
+"Student Name : "+name+"<br>"+
+"PRN Number : "+prn+"<br><br>"+
+"Subject 1 : "+marks[0]+"<br>"+
+"Subject 2 : "+marks[1]+"<br>"+
+"Subject 3 : "+marks[2]+"<br>"+
+"Subject 4 : "+marks[3]+"<br>"+
+"Subject 5 : "+marks[4]+"<br><br>"+
+"Total Marks : "+total+"/500<br>"+
+"Percentage : "+percentage.toFixed(2)+"%<br>"+
+"Grade : "+grade;
+
+}
+</script>
+
+</body>
+</html>
