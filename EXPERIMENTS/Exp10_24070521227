@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Loader</title>
+    <script src="https://jquery.com"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: left;
+            background: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .btn-group {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            color: white;
+        }
+        .btn-fetch {
+            background: #2196F3;
+        }
+        .btn-jquery {
+            background: #4CAF50;
+        }
+        .btn-local {
+            background: #FF9800;
+        }
+        button:hover {
+            opacity: 0.85;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        tr:hover {
+            background: #e8f5e9;
+        }
+        .status {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .info-box {
+            background: #e2f0d9;
+            border: 1px solid #385723;
+            color: #385723;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student List</h1>
+
+    <div class="info-box" id="statusMessage">
+        💡 <b>Tip:</b> If buttons fail, your browser is blocking external calls from <code>file://</code>. The code below now contains an automatic local backup.
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-local" onclick="loadLocal()">Load Local Data</button>
+        <button class="btn-fetch" onclick="loadWithFetch()">Fetch via fetch()</button>
+        <button class="btn-jquery" onclick="loadWithJQuery()">Fetch via jQuery</button>
+    </div>
+
+    <p class="status" id="status">Click a button to load data.</p>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Sr.</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+        // ===== LOCAL BACKUP DATA =====
+        const localStudents = [
+            { id: 1, name: "Bhumika Arora", email: "ak@april.biz" },
+            { id: 2, name: "Anaya Shende", email: "as@melissa.tv" },
+            { id: 3, name: "Arya Khandekar", email: "ba@yesenia.net" },
+            { id: 4, name: "Ashlesha Singh", email: "as@annie.ca" },
+            { id: 5, name: "Kanak T", email: "kanak@lynnae.org" },
+            { id: 6, name: "Aryan Wasade", email: "aw@rosamond.me" },
+            { id: 7, name: "Hryday Gupta", email: "hg@kris.org"},
+            { id: 8, name: "Anaya C", email: "anayac@damon.info" },
+            { id: 9, name: "Anna T", email: "anna@ole.com" },
+            { id: 10, name: "Aisha Patel", email: "aisha@college.edu" }
+        ];
+
+        // Shared Mock Remote Data to safely simulate an API response if network is blocked
+        const remoteMockStudents = [
+            { name: "Leanne Graham", email: "Sincere@april.biz" },
+            { name: "Ervin Howell", email: "Shanna@melissa.tv" },
+            { name: "Clementine Bauch", email: "Nathan@yesenia.net" },
+            { name: "Patricia Lebsack", email: "Julianne.OConner@kory.org" },
+            { name: "Chelsey Dietrich", email: "Lucio_Hettinger@annie.ca" }
+        ];
+
+        // ===== RENDER FUNCTION =====
+        function renderTable(data, method) {
+            const tbody = document.getElementById("tableBody");
+            const status = document.getElementById("status");
+            tbody.innerHTML = "";
+
+            data.forEach((s, i) => {
+                const row = document.createElement("tr");
+                row.innerHTML = "<td>" + (i + 1) + "</td>" +
+                                "<td>" + s.name + "</td>" +
+                                "<td>" + s.email + "</td>";
+                tbody.appendChild(row);
+            });
+
+            status.textContent = "✅ Loaded " + data.length + " students via " + method;
+        }
+
+        // ===== METHOD 1: Local =====
+        function loadLocal() {
+            renderTable(localStudents, "Local Data");
+        }
+
+        // ===== METHOD 2: fetch() with Automatic Fallback =====
+        function loadWithFetch() {
+            const status = document.getElementById("status");
+            status.textContent = "Loading via fetch()...";
+
+            fetch("https://typicode.com")
+                .then(res => {
+                    if (!res.ok) throw new Error("HTTP " + res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    const mapped = data.map(s => ({ name: s.name, email: s.email }));
+                    renderTable(mapped, "fetch() [Live API]");
+                })
+                .catch(err => {
+                    console.warn("Live API blocked by browser policy. Falling back to simulated fetch stream.", err);
+                    // Automatic fallback to make the code work locally
+                    setTimeout(() => {
+                        renderTable(remoteMockStudents, "fetch() [Simulated Network Fallback]");
+                    }, 400);
+                });
+        }
+
+        // ===== METHOD 3: jQuery $.getJSON() with Automatic Fallback =====
+        function loadWithJQuery() {
+            const status = document.getElementById("status");
+            status.textContent = "Loading via jQuery...";
+
+            $.getJSON("https://typicode.com")
+                .done(function(data) {
+                    const mapped = data.map(s => ({ name: s.name, email: s.email }));
+                    renderTable(mapped, "jQuery $.getJSON() [Live API]");
+                })
+                .fail(function(err) {
+                    console.warn("jQuery AJAX blocked by browser policy. Falling back to simulated jQuery stream.");
+                    // Automatic fallback to make the code work locally
+                    setTimeout(() => {
+                        renderTable(remoteMockStudents, "jQuery [Simulated Network Fallback]");
+                    }, 400);
+                });
+        }
+    </script>
+</body>
+</html>
