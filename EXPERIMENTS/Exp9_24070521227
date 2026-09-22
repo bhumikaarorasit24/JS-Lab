@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Web Page</title>
+    <style>
+        /* Base styles forcing left alignment */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: left;
+            margin: 0;
+            padding: 40px;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        /* Container box enclosing the entire output */
+        .main-container {
+            border: 2px solid #333;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Theme Styles applied to body and adjustments for container contrast */
+        body.light { background-color: #ffffff; color: #333333; }
+        body.dark { background-color: #1e1e1e; color: #ffffff; }
+        body.dark .main-container { border-color: #ffffff; background-color: rgba(30, 30, 30, 0.9); color: #ffffff; }
+        
+        body.pink { background-color: #ffb6c1; color: #4a0e17; }
+        body.pink .main-container { border-color: #4a0e17; background-color: rgba(255, 182, 193, 0.9); color: #4a0e17; }
+
+        body.green { background-color: #d0f0c0; color: #1b4d3e; }
+        body.green .main-container { border-color: #1b4d3e; background-color: rgba(208, 240, 192, 0.9); color: #1b4d3e; }
+
+        /* Broader and Bold Headings */
+        .heading-text {
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Simple Layout Styles */
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        /* General button styling */
+        button {
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid #777;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        /* Active theme button styling */
+        .theme-btn.active {
+            font-weight: bold;
+            border: 2px solid #000;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        body.dark .theme-btn.active { border-color: #fff; }
+        body.pink .theme-btn.active { border-color: #4a0e17; }
+        body.green .theme-btn.active { border-color: #1b4d3e; }
+
+        .radio-group label {
+            font-size: 16px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .radio-group input {
+            transform: scale(1.1);
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .info {
+            margin-top: 30px;
+            font-weight: bold;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+        }
+        #status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="light">
+
+    <!-- The whole output enclosed inside this main box container -->
+    <div class="main-container">
+
+        <!-- Theme Selection Buttons -->
+        <div class="section">
+            <span class="heading-text">Choose a Theme</span>
+            <div id="themeButtonsContainer">
+                <button class="theme-btn active" data-theme="light">Light</button>
+                <button class="theme-btn" data-theme="dark">Dark</button>
+                <button class="theme-btn" data-theme="pink">Pink</button>
+                <button class="theme-btn" data-theme="green">Green</button>
+            </div>
+        </div>
+
+        <!-- Storage Type Selection Options -->
+        <div class="section">
+            <span class="heading-text">Select Storage Type</span>
+            <div class="radio-group">
+                <input type="radio" id="localOpt" name="storageType" value="local" checked>
+                <label for="localOpt">Local Storage</label>
+                
+                <input type="radio" id="sessionOpt" name="storageType" value="session">
+                <label for="sessionOpt">Session Storage</label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="section">
+            <button id="submitBtn" style="background-color: #e0e0e0; font-weight: bold;">Submit</button>
+        </div>
+
+        <!-- Status Messages -->
+        <div class="section">
+            <p>Current Storage Status: <span id="status">No theme saved yet.</span></p>
+        </div>
+
+        <!-- Student Details (Left Aligned) -->
+        <div class="info">
+            <p>Developed by name: Arya Khandekar</p>
+            <p>PRN: 24070521219</p>
+        </div>
+
+    </div>
+
+    <script>
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusText = document.getElementById('status');
+        let selectedTheme = 'light';
+
+        // Function to apply the selected theme class to the body and update button styling
+        function applyTheme(themeName) {
+            selectedTheme = themeName;
+            document.body.className = themeName;
+            
+            // Manage active styles on the theme buttons
+            themeButtons.forEach(btn => {
+                if (btn.getAttribute('data-theme') === themeName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Check for existing saved themes on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('savedTheme')) {
+                const localTheme = localStorage.getItem('savedTheme');
+                applyTheme(localTheme);
+                statusText.innerText = `Loaded "${localTheme}" from Local Storage.`;
+                document.getElementById('localOpt').checked = true;
+            } else if (sessionStorage.getItem('savedTheme')) {
+                const sessionTheme = sessionStorage.getItem('savedTheme');
+                applyTheme(sessionTheme);
+                statusText.innerText = `Loaded "${sessionTheme}" from Session Storage.`;
+                document.getElementById('sessionOpt').checked = true;
+            }
+        });
+
+        // Event listener to dynamically preview themes when clicking custom buttons
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTheme = button.getAttribute('data-theme');
+                applyTheme(targetTheme);
+            });
+        });
+
+        // Submit button functionality to save preferences
+        submitBtn.addEventListener('click', () => {
+            const isLocal = document.getElementById('localOpt').checked;
+
+            if (isLocal) {
+                // Save to Local Storage (Persists even when browser closes)
+                localStorage.setItem('savedTheme', selectedTheme);
+                sessionStorage.removeItem('savedTheme'); // Clear session to avoid conflicts
+                statusText.innerText = `Saved "${selectedTheme}" to Local Storage.`;
+            } else {
+                // Save to Session Storage (Cleared when tab closes)
+                sessionStorage.setItem('savedTheme', selectedTheme);
+                localStorage.removeItem('savedTheme'); // Clear local to avoid conflicts
+                statusText.innerText = `Saved "${selectedTheme}" to Session Storage.`;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
