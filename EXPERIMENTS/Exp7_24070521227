@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>DOM Traversal To-Do List</title>
+    <style>
+        /* Base / Default Light Theme variables */
+        :root {
+            --bg-color: #e0f7fa;
+            --container-bg: #ffffff;
+            --text-main: #006064;
+            --text-sub: #00838f;
+            --border-color: #0097a7;
+            --btn-add: #00bcd4;
+            --btn-add-hover: #0097a7;
+            --item-bg: #f1f8e9;
+            --text-color: #000000;
+        }
+
+        /* Dark Theme overrides */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --container-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-sub: #b0bec5;
+            --border-color: #37474f;
+            --btn-add: #37474f;
+            --btn-add-hover: #4f5b62;
+            --item-bg: #2d2d2d;
+            --text-color: #ffffff;
+        }
+
+        /* Pink Theme overrides */
+        [data-theme="pink"] {
+            --bg-color: #fce4ec;
+            --container-bg: #ffffff;
+            --text-main: #880e4f;
+            --text-sub: #ad1457;
+            --border-color: #c2185b;
+            --btn-add: #e91e63;
+            --btn-add-hover: #c2185b;
+            --item-bg: #fdf2f8;
+            --text-color: #000000;
+        }
+
+        /* Green Theme overrides */
+        [data-theme="green"] {
+            --bg-color: #e8f5e9;
+            --container-bg: #ffffff;
+            --text-main: #1b5e20;
+            --text-sub: #2e7d32;
+            --border-color: #388e3c;
+            --btn-add: #4caf50;
+            --btn-add-hover: #388e3c;
+            --item-bg: #f1f8e9;
+            --text-color: #000000;
+        }
+
+        body {
+            display: block;
+            margin: 50px 0 0 50px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 420px;
+            transition: background-color 0.3s;
+        }
+        
+        h1 {
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 26px;
+            color: var(--text-main);
+        }
+        
+        .credentials {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 25px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Theme Selector layout rules */
+        .theme-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-select {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            outline: none;
+        }
+        
+        #task-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+        }
+        
+        #add-btn {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: var(--btn-add);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        #add-btn:hover {
+            background-color: var(--btn-add-hover);
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--item-bg);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+        }
+        
+        .task-text {
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        .done {
+            text-decoration: line-through;
+            color: #757575;
+        }
+        
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-btn {
+            background-color: #ffb74d;
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background-color: #ffa000;
+        }
+        
+        .delete-btn {
+            background-color: #e57373;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Theme Selection Setup -->
+        <div class="theme-container">
+            <label for="theme-select" style="font-size: 14px; font-weight: bold;">Theme:</label>
+            <select id="theme-select" class="theme-select">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="pink">Pink</option>
+                <option value="green">Green</option>
+            </select>
+        </div>
+
+        <h1>To-Do List</h1>
+        <!-- Student verification details permanently rendered here -->
+        <div class="credentials">
+            Name: Bhumika Arora <br>
+            PRN: 24070521227
+        </div>
+        <div style="display:flex; margin-bottom:20px;">
+            <input type="text" id="task-input" placeholder="Enter a task" />
+            <button id="add-btn">Add</button>
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('task-input');
+        const addBtn = document.getElementById('add-btn');
+        const taskList = document.getElementById('task-list');
+        const themeSelect = document.getElementById('theme-select');
+
+        // Theme switching handler
+        themeSelect.addEventListener('change', (e) => {
+            document.documentElement.setAttribute('data-theme', e.target.value);
+        });
+
+        // Execute Add feature using DOM tree insertions
+        addBtn.addEventListener('click', () => {
+            const taskText = taskInput.value.trim();
+            if (taskText === '') return;
+
+            const li = document.createElement('li');
+
+            // Dynamic Checkbox Generation
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+
+            // Dynamic Text Span Generation
+            const span = document.createElement('span');
+            span.className = 'task-text';
+            span.textContent = taskText;
+
+            // DOM Event handling for status update toggle
+            checkbox.onclick = () => {
+                if (checkbox.checked) {
+                    span.classList.add('done');
+                } else {
+                    span.classList.remove('done');
+                }
+            };
+
+            // Dynamic functional button nodes
+            const btnsDiv = document.createElement('div');
+            btnsDiv.className = 'buttons';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn edit-btn';
+            editBtn.textContent = 'Edit';
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn delete-btn';
+            deleteBtn.textContent = 'Delete';
+
+            // DOM Traversal & Update: Modify target element value directly
+            editBtn.onclick = () => {
+                const newTask = prompt('Edit task:', span.textContent);
+                if (newTask !== null && newTask.trim() !== '') {
+                    span.textContent = newTask.trim();
+                }
+            };
+
+            // DOM Node Removal: Target explicit structural node deletion
+            deleteBtn.onclick = () => {
+                taskList.removeChild(li);
+            };
+
+            // Complete standard node linkage structure assembly
+            btnsDiv.appendChild(editBtn);
+            btnsDiv.appendChild(deleteBtn);
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(btnsDiv);
+
+            // Final append update to existing visible DOM
+            taskList.appendChild(li);
+            taskInput.value = '';
+        });
+
+        // Add task mapping confirmation with Enter key support
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
